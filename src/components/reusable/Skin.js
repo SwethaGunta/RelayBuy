@@ -8,15 +8,14 @@ const Skin = ({ borderColor, children }) => {
             borderColor: borderColor,
             borderRadius: 4,
             opacity: 0.7,
-            margin: 15,
+            margin: 10,
             width: '100%',
             alignSelf: 'center',
             shadowColor: '#000000',
             shadowOffset: {width: 0, height: 3},
             shadowOpacity: 0.9,
             shadowRadius: 4,
-            elevation: 2,
-            justifyContent: 'space-around'
+            elevation: 2       
         }
     })
     return(

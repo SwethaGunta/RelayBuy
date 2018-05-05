@@ -5,14 +5,14 @@ const Input = (props) =>
 {
     const styles = StyleSheet.create({
         inputContainerStyle: {
-            margin : 10,
+            margin : 5,
             padding: 2,
             justifyContent: 'center',
             alignItems: 'stretch',
             opacity: 0.9
             },
         inputboxStyle: {
-            margin: 10,
+            margin: 5,
             padding: 4,
             shadowColor: '#000000',
             shadowOffset: { width: 0, height: 2 },
@@ -27,7 +27,7 @@ const Input = (props) =>
         
     const { value, placeholder, inlineImageLeft, keyboardType, onChangeText, autoCorrect, borderColor, secureTextEntry } = props
     return(
-        <View style ={styles.inputContainerStyle  }>
+        <View style ={styles.inputContainerStyle}>
             <TextInput 
                 value = {value}
                 placeholder = {placeholder}

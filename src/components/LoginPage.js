@@ -3,41 +3,59 @@ import { View, ImageBackground, Text, StyleSheet, Alert } from 'react-native';
 import firebase from 'firebase';
 import shoppingstore from '../assets/shoppinghd.png';
 import { Skin, Input } from './reusable';
-import { Icon, Button } from 'native-base';
+import { Icon, Button, Spinner } from 'native-base';
 
 
 class LoginPage extends Component{
     state = {
         email: '',
         password: '',
-        authDone: true
+        error: '',
+        isLoading: false
     }
-    async componentWillMount() {
-        
-        const firebaseConfig = {
-            apiKey: 'AIzaSyDStVSUJfHQrTpeYelitiprYNKuQaON5VQ',
-            authDomain: 'relaybuy.firebaseapp.com',
-            databaseURL: 'https://relaybuy.firebaseio.com',
-            projectId: 'relaybuy',
-            storageBucket: 'relaybuy.appspot.com',
-            messagingSenderId: '942062184960'
-        }
-  
-firebase.initializeApp(firebaseConfig);
-    }
+
+    
+
     handleLoginSignUpPress = () =>{
-       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .catch(
-                firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
-                    .catch(error => Alert.alert(error))
+        const { email, password } = this.state;
+        this.setState({ error: '', isLoading: true })
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(this.onLoginSuccess)
+            .catch(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then(this.onLoginSuccess)
+                    .catch(()=>{
+                        this.setState({ error: 'Authentication Failed!', isLoading: false })
+                    })
+            }
+                
             )
 
     }
-     
+    onLoginSuccess = () =>{
+        this.setState({
+            email: '',
+            password: '',
+            isLoading: false
+        })
+    }
+
+    showButton = () => {
+        if(this.state.isLoading)
+        {
+            return <Spinner style = {styles.spinnerStyle} />
+        }
+        return (
+            <Button onPress={this.handleLoginSignUpPress} style = {styles.buttonStyle}>
+                <Text>Log In/Sign Up</Text>
+            </Button>
+        )
+    }
+  
     render(){
-       
+        const { imageContainerStyle, errorStyle, buttonStyle, spinnerStyle } = styles
         return(
-                <ImageBackground  style={styles.imageContainerStyle}>
+                <ImageBackground  style={imageContainerStyle}>
                     <Skin borderColor = '#7B1FA2' >
                         <Input
                             value = {this.state.email} 
@@ -56,10 +74,8 @@ firebase.initializeApp(firebaseConfig);
                             keyboardType= 'default'
                             secureTextEntry
                         />
-                        <Button onPress={this.handleLoginSignUpPress} style = {styles.buttonStyle}>
-                            <Text>Log In/Sign Up</Text>
-                        </Button>
-
+                        <Text style = {errorStyle}> {this.state.error} </Text>
+                        {this.showButton()}
                     </Skin>
                 </ImageBackground>
         )
@@ -70,10 +86,21 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         backgroundColor: '#F48FB1',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding: 10
     },
     buttonStyle: {
-        alignSelf: 'center'
+        alignSelf: 'center',
+        margin: 3
+    },
+    errorStyle: {
+        alignSelf: 'center',
+        color: '#FF0000'
+    },
+    spinnerStyle:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 export default LoginPage

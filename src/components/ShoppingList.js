@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import Item from './Item';
-import ItemSection from './ItemSection';
+import { Item, ItemSection } from './reusable';
 import ShoppingItem from './ShoppingItem';
 
 export default class ShoppingList extends Component{

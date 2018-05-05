@@ -1,10 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import Item from './Item';
-import ItemSection from './ItemSection';
+import { Item, ItemSection, Mode } from './reusable';
 import Description from './Description';
 import { Thumbnail, Badge } from 'native-base';
-import Mode from './Mode';
 
 //problem in this section rendering but not displaying
 

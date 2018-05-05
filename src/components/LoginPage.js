@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, Text, StyleSheet } from 'react-native';
-
+import { View, ImageBackground, Text, StyleSheet, Alert } from 'react-native';
+import firebase from 'firebase';
 import shoppingstore from '../assets/shoppinghd.png';
-import Skin from './reusable/Skin';
-import Input from './reusable/Input';
+import { Skin, Input } from './reusable';
 import { Icon, Button } from 'native-base';
 
 
 class LoginPage extends Component{
     state = {
         email: '',
-        password: ''
+        password: '',
+        authDone: true
+    }
+    async componentWillMount() {
+        
+        const firebaseConfig = {
+            apiKey: 'AIzaSyDStVSUJfHQrTpeYelitiprYNKuQaON5VQ',
+            authDomain: 'relaybuy.firebaseapp.com',
+            databaseURL: 'https://relaybuy.firebaseio.com',
+            projectId: 'relaybuy',
+            storageBucket: 'relaybuy.appspot.com',
+            messagingSenderId: '942062184960'
+        }
+  
+firebase.initializeApp(firebaseConfig);
     }
     handleLoginSignUpPress = () =>{
-        
+       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .catch(
+                firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
+                    .catch(error => Alert.alert(error))
+            )
+
     }
      
     render(){
+       
         return(
                 <ImageBackground  style={styles.imageContainerStyle}>
                     <Skin borderColor = '#7B1FA2' >
@@ -37,7 +56,7 @@ class LoginPage extends Component{
                             keyboardType= 'default'
                             secureTextEntry
                         />
-                        <Button onPress={this.handleLoginSignUpPress}>
+                        <Button onPress={this.handleLoginSignUpPress} style = {styles.buttonStyle}>
                             <Text>Log In/Sign Up</Text>
                         </Button>
 
@@ -52,6 +71,9 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#F48FB1',
         justifyContent: 'center'
+    },
+    buttonStyle: {
+        alignSelf: 'center'
     }
 });
 export default LoginPage

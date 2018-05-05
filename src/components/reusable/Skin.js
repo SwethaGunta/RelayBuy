@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 
 const Skin = ({ borderColor, children }) => {
     const styles = StyleSheet.create({
@@ -8,9 +8,9 @@ const Skin = ({ borderColor, children }) => {
             borderColor: borderColor,
             borderRadius: 4,
             opacity: 0.7,
-            margin: 5,
+            margin: 15,
+            width: '100%',
             alignSelf: 'center',
-            width : '100%',
             shadowColor: '#000000',
             shadowOffset: {width: 0, height: 3},
             shadowOpacity: 0.9,
@@ -26,4 +26,4 @@ const Skin = ({ borderColor, children }) => {
     );
 }
 
-export default Skin
+export {Skin}

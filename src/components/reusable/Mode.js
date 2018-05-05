@@ -10,4 +10,4 @@ const Mode = (props) =>
     )
 }
 
-export default Mode
+export {Mode}
